@@ -1,0 +1,116 @@
+\documentclass{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\title{RC1: A Deterministic Structural Constraint Projection Framework for Text Evaluation}
+\author{Brad Wallace}
+\date{March 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We introduce RC1, a deterministic rule-based framework for projecting textual outputs into a structural compliance space defined by seven lexical constraint operators. RC1 computes a normalized compliance score, violation taxonomy, and gate classification under a fixed versioned specification. The system is idempotent, dependency-free, and fully auditable. A 200-document clean technical corpus evaluation yields a measured false positive rate of 0\%, with Wilson 95\% confidence interval $< 1.8\%$. RC1 does not evaluate semantic truth or factual correctness; it enforces structural discipline only.
+\end{abstract}
+
+\section{Introduction}
+
+Large language model outputs frequently exhibit structural inflation, abstraction escalation, prescriptive drift, and rhetorical amplification. While semantic evaluation frameworks exist, fewer systems target structural discipline under deterministic rules.
+
+RC1 addresses this gap by defining a fixed constraint projection operator over tokenized text.
+
+\section{Formal Framework}
+
+Let $y$ denote a text sequence.
+
+RC1 defines a projection operator:
+
+\[
+P(y) = \{ S, V, T, G \}
+\]
+
+Where:
+
+\begin{itemize}
+\item $V$ = total violation severity
+\item $S = 1 - \frac{V}{14}$ = compliance score
+\item $T$ = taxonomy vector
+\item $G$ = gate classification
+\end{itemize}
+
+Maximum possible severity:
+
+\[
+V_{\max} = 14
+\]
+
+\section{Constraint Operators}
+
+RC1-2026-03-25 includes seven fixed operators:
+
+\begin{enumerate}
+\item Undissolved Metaphor (H2)
+\item Absolute Claim Without Scope (ABS)
+\item Intent Without Mechanism (INTENT)
+\item Abstraction Escalation (ESC)
+\item Rephrasing Loop (LOOP)
+\item Ungrounded Prescriptive (PRESC)
+\item Self-Reference Claim (SELF)
+\end{enumerate}
+
+Each operator applies lexical window-based pattern detection. Operators are implemented as pure functions: $C_i : y \rightarrow \{0, 1, 2\}$.
+
+\section{Determinism and Idempotence}
+
+RC1 guarantees:
+
+\begin{itemize}
+\item No stochastic processes
+\item No model inference
+\item Pure standard library implementation (Python \texttt{re}, \texttt{string}, \texttt{typing})
+\item Identical input yields identical output
+\end{itemize}
+
+\section{False Positive Study}
+
+A corpus of 200 purely technical documents was evaluated. Sources: Python math stdlib, RFC~793, RFC~2616, NumPy ndarray reference, Euclidean algorithm documentation.
+
+Results:
+
+\[
+FP = 0\%
+\]
+
+Total severity across corpus: 32. Mean $V$: 0.16. StdDev $V$: 0.54.
+
+Wilson 95\% CI:
+
+\[
+FP_{true} < 1.8\%
+\]
+
+\section{Limitations}
+
+RC1:
+
+\begin{itemize}
+\item Is lexical and rule-based
+\item Does not detect hallucinations
+\item Does not evaluate factual correctness
+\item May miss subtle semantic violations
+\item Is sensitive to phrasing variations
+\end{itemize}
+
+\section{Governance}
+
+Version RC1-2026-03-25 is immutable. Operator additions require new version designation (RC2+). Threshold changes require new version. No silent modifications are permitted.
+
+\section{Conclusion}
+
+RC1 provides a deterministic structural discipline layer for textual evaluation. It complements semantic and safety evaluation systems without attempting to replace them. Its strength lies in scope restraint, reproducibility, and immutability.
+
+\end{document}

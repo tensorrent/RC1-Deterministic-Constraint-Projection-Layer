@@ -1,0 +1,40 @@
+name: RC1 Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Verify no external dependencies
+        run: |
+          # RC1 must have zero external deps
+          test ! -f requirements.txt || [ $(wc -l < requirements.txt) -eq 0 ]
+
+      - name: Run RC1-Lite tests (56 expected)
+        run: python3 tests/test_rc1_lite.py
+
+      - name: Verify version consistency
+        run: |
+          VERSION_FILE=$(cat VERSION | tr -d '[:space:]')
+          VERSION_PY=$(python3 -c "from rc1_lite.version import VERSION; print(VERSION)")
+          if [ "$VERSION_FILE" != "$VERSION_PY" ]; then
+            echo "VERSION mismatch: file=$VERSION_FILE code=$VERSION_PY"
+            exit 1
+          fi
+          echo "Version consistent: $VERSION_FILE"
