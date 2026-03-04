@@ -1,0 +1,688 @@
+{
+  "RC2-001": {
+    "id": "RC2-001",
+    "name": "Rational Comparison Gate",
+    "domain": "stability",
+    "canonical_form": "a/b > c/d  \u27fa  a\u00b7d > c\u00b7b  (for b,d > 0)",
+    "description": "Compares two rational numbers via integer cross-multiplication. Eliminates floating-point boundary errors. Foundation of all stability decisions in the stack.",
+    "provenance": {
+      "source": "RC2 Reference Minimum",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Rational Gate",
+      "reference": "rc2_reference.py, 57/57 tests",
+      "verified_tests": 57
+    },
+    "assumptions": [
+      {
+        "name": "positive_denominators",
+        "description": "Denominators must be positive"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "zero_denominator",
+        "example": "{'a': 1, 'b': 0, 'c': 1, 'd': 1}",
+        "description": "Division by zero \u2014 undefined"
+      },
+      {
+        "name": "negative_denominator",
+        "example": "{'a': 1, 'b': -1, 'c': 1, 'd': 1}",
+        "description": "Negative denominator flips inequality direction"
+      }
+    ],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "a\u00b7d > c\u00b7b",
+      "op_count": 3,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 2400
+    },
+    "falsification": {
+      "cases_attempted": 275,
+      "cases_passed": 275,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 50,
+      "adversarial_tested": 25,
+      "duration_ms": 11.23
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC2-002": {
+    "id": "RC2-002",
+    "name": "Rational Equality Gate",
+    "domain": "stability",
+    "canonical_form": "a/b = c/d  \u27fa  a\u00b7d = c\u00b7b  (for b,d > 0)",
+    "description": "Exact rational equality via cross-multiplication.",
+    "provenance": {
+      "source": "RC2 Reference Minimum",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Equality Gate",
+      "reference": "rc2_reference.py",
+      "verified_tests": 57
+    },
+    "assumptions": [
+      {
+        "name": "positive_denominators",
+        "description": "Denominators must be positive"
+      }
+    ],
+    "breaks_when": [],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "a\u00b7d = c\u00b7b",
+      "op_count": 3,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 2400
+    },
+    "falsification": {
+      "cases_attempted": 275,
+      "cases_passed": 275,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 50,
+      "adversarial_tested": 25,
+      "duration_ms": 8.27
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC4-001": {
+    "id": "RC4-001",
+    "name": "Cross-Gain Stability (\u0394 > 0)",
+    "domain": "stability",
+    "canonical_form": "\u0394 = \u03b2\u00b7\u03ba \u2212 \u03b1\u00b7\u03b3 > 0",
+    "description": "For a 2\u00d72 interaction atom A = [[-\u03b2, -\u03b3], [-\u03b1, -\u03ba]], the system is asymptotically stable iff \u0394 = \u03b2\u03ba \u2212 \u03b1\u03b3 > 0 and trace < 0 (d > 0). Six equivalent characterizations collapse to this single scalar.",
+    "provenance": {
+      "source": "RC4 v2 Universal Atom",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Six-Way Equivalence Theorem",
+      "reference": "rc4_universal.py, 34/34 tests",
+      "verified_tests": 34
+    },
+    "assumptions": [
+      {
+        "name": "positive_gains",
+        "description": "All coupling gains are non-negative, corrective gains positive"
+      },
+      {
+        "name": "positive_damping",
+        "description": "Self-damping d > 0 ensures negative trace"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "negative_delta",
+        "example": "{'beta': 0.3, 'kappa': 0.2, 'alpha': 0.8, 'gamma': 0.9}",
+        "description": "\u0394 = 0.06 \u2212 0.72 = \u22120.66 < 0 \u2192 unstable"
+      },
+      {
+        "name": "zero_damping",
+        "example": "{'beta': 0.5, 'kappa': 0.5, 'alpha': 0.1, 'gamma': 0.1, 'd': 0}",
+        "description": "\u0394 > 0 but d = 0 \u2192 marginally stable, not asymptotically"
+      }
+    ],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "\u03b2\u00b7\u03ba > \u03b1\u00b7\u03b3",
+      "op_count": 3,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 2400
+    },
+    "falsification": {
+      "cases_attempted": 275,
+      "cases_passed": 275,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 50,
+      "adversarial_tested": 25,
+      "duration_ms": 7.46
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC4-002": {
+    "id": "RC4-002",
+    "name": "Negative Trace Condition",
+    "domain": "stability",
+    "canonical_form": "tr(A) = \u2212(d+\u03b2) + (\u2212d\u2212\u03ba) < 0  \u27fa  d > 0 (given positive gains)",
+    "description": "The trace of the damped atom J = D + A is always negative when d > 0 and gains are positive. This is the necessary condition; \u0394 > 0 is the sufficient condition.",
+    "provenance": {
+      "source": "RC4 v2 Universal Atom",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Trace Condition",
+      "reference": "rc4_universal.py",
+      "verified_tests": 34
+    },
+    "assumptions": [
+      {
+        "name": "positive_damping",
+        "description": "Damping and corrective gains positive"
+      }
+    ],
+    "breaks_when": [],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "2d + \u03b2 + \u03ba > 0",
+      "op_count": 3,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 2400
+    },
+    "falsification": {
+      "cases_attempted": 275,
+      "cases_passed": 275,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 50,
+      "adversarial_tested": 25,
+      "duration_ms": 6.64
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC4-003": {
+    "id": "RC4-003",
+    "name": "Hurwitz Stability (2\u00d72)",
+    "domain": "stability",
+    "canonical_form": "tr(J) < 0  AND  det(J) > 0",
+    "description": "Full Hurwitz criterion for 2\u00d72 atom. Equivalent to: d > 0 AND \u03b2\u00b7\u03ba \u2212 \u03b1\u00b7\u03b3 > 0. Both conditions are integer-testable.",
+    "provenance": {
+      "source": "RC4 v2 + Routh-Hurwitz (1877/1895)",
+      "authors": [
+        "Brad Wallace",
+        "E.J. Routh",
+        "A. Hurwitz"
+      ],
+      "year": 2026,
+      "theorem_id": "Hurwitz-2\u00d72",
+      "reference": "rc4_universal.py",
+      "verified_tests": 34
+    },
+    "assumptions": [
+      {
+        "name": "valid_atom",
+        "description": "Standard atom parameter ranges"
+      }
+    ],
+    "breaks_when": [],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "(2d+\u03b2+\u03ba > 0) \u2227 (\u03b2\u00b7\u03ba > \u03b1\u00b7\u03b3)",
+      "op_count": 6,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 4800
+    },
+    "falsification": {
+      "cases_attempted": 275,
+      "cases_passed": 275,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 50,
+      "adversarial_tested": 25,
+      "duration_ms": 6.9
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC5-001": {
+    "id": "RC5-001",
+    "name": "Tree Network Sufficiency",
+    "domain": "stability",
+    "canonical_form": "G is tree \u2227 \u2200e\u2208E: \u0394(e)>0 \u27f9 stable(G)",
+    "description": "For tree-topology agent networks, if every edge atom is individually stable (\u0394 > 0), the entire network is stable. Trees have amplification factor A(G) \u2248 1.",
+    "provenance": {
+      "source": "RC5 Network Stability",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Tree Sufficiency Theorem",
+      "reference": "rc5_network.py, 50/50 tests",
+      "verified_tests": 50
+    },
+    "assumptions": [
+      {
+        "name": "tree_topology",
+        "description": "Graph must be a tree (|E| = |V| - 1, connected, acyclic)"
+      },
+      {
+        "name": "all_edges_stable",
+        "description": "Every edge atom has \u0394 > 0"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "cycle_topology",
+        "example": "{'topology': '4-ring', 'all_edges_stable': True, 'result': 'unstable, max Re(\u03bb) = +0.3'}",
+        "description": "Adding one edge to form a cycle breaks tree sufficiency"
+      }
+    ],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "is_tree(G) \u2227 \u2200e: \u0394(e) > 0",
+      "op_count": "variable",
+      "bit_exact": true,
+      "complexity": "O(N)",
+      "gas_estimate": null
+    },
+    "falsification": {
+      "cases_attempted": 204,
+      "cases_passed": 204,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 0,
+      "adversarial_tested": 4,
+      "duration_ms": 7.6
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC5-002": {
+    "id": "RC5-002",
+    "name": "Even-Cycle Phase-Flip Vulnerability",
+    "domain": "stability",
+    "canonical_form": "k even \u2227 \u03b2 > d \u27f9 phase_flip_unstable(C_k)",
+    "description": "Even-length cycles contain adjacency eigenvalue \u03c9 = \u22121, which flips coupling signs. If \u03b2 > d, the flipped block has positive diagonal \u2192 instability. This mechanism is invisible to edge-level analysis.",
+    "provenance": {
+      "source": "RC5 Amplification Theorem",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Phase-Flip Mechanism",
+      "reference": "rc5_amplification.py, 30/30 tests",
+      "verified_tests": 30
+    },
+    "assumptions": [
+      {
+        "name": "uniform_cycle",
+        "description": "Directed cycle of k \u2265 3 nodes with uniform edge atoms"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "weak_coupling",
+        "example": "{'beta': 0.3, 'd': 0.5, 'k': 4}",
+        "description": "\u03b2 < d \u2192 no phase flip even on even cycle"
+      }
+    ],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "\u00ac(k mod 2 = 0 \u2227 \u03b2 > d)",
+      "op_count": 3,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 2400
+    },
+    "falsification": {
+      "cases_attempted": 210,
+      "cases_passed": 210,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 0,
+      "adversarial_tested": 10,
+      "duration_ms": 6.55
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC5-003": {
+    "id": "RC5-003",
+    "name": "Small-Gain Sufficient Condition",
+    "domain": "small_gain",
+    "canonical_form": "max_cycle_gain(G) < 1 \u27f9 stable(G)",
+    "description": "If the maximum loop gain around any cycle in the agent graph is less than 1, the system is stable. Sufficient condition. Does not require eigenvalue computation.",
+    "provenance": {
+      "source": "RC5 Amplification Theorem",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Small-Gain Theorem",
+      "reference": "rc5_amplification.py",
+      "verified_tests": 30
+    },
+    "assumptions": [
+      {
+        "name": "measurable_gains",
+        "description": "All cycle gains are non-negative and computable"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "gain_exceeds_one",
+        "example": "{'cycle_gains': [16.0], 'result': 'unstable'}",
+        "description": "Cycle gain \u2265 1 \u2192 condition inconclusive (may still be stable)"
+      }
+    ],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "\u2200c \u2208 cycles(G): gain(c) < 1",
+      "op_count": "variable",
+      "bit_exact": true,
+      "complexity": "O(N)",
+      "gas_estimate": null
+    },
+    "falsification": {
+      "cases_attempted": 275,
+      "cases_passed": 275,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 50,
+      "adversarial_tested": 25,
+      "duration_ms": 7.87
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC5-004": {
+    "id": "RC5-004",
+    "name": "Amplification Law A(G) \u2248 1/\u0394",
+    "domain": "boundedness",
+    "canonical_form": "A(G) \u221d 1/\u0394_min for near-critical rings",
+    "description": "Topological amplification factor scales as reciprocal of minimum edge margin. Verified: \u0394=0.01 \u2192 A(G)=179\u00d7.",
+    "provenance": {
+      "source": "RC5 Amplification Theorem",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Amplification Factor",
+      "reference": "rc5_amplification.py",
+      "verified_tests": 30
+    },
+    "assumptions": [
+      {
+        "name": "critical_ring",
+        "description": "Ring is near-critical with small positive \u0394"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "tree_topology",
+        "example": "{'topology': 'tree', 'A_G': 1.0}",
+        "description": "Trees have A(G) \u2248 1 regardless of \u0394"
+      }
+    ],
+    "gate": {
+      "tier": "POLYNOMIAL",
+      "rational_form": "\u0394_min > 0 \u2227 1/\u0394_min < threshold",
+      "op_count": 3,
+      "bit_exact": true,
+      "complexity": "O(N)",
+      "gas_estimate": null
+    },
+    "falsification": {
+      "cases_attempted": 275,
+      "cases_passed": 275,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 50,
+      "adversarial_tested": 25,
+      "duration_ms": 6.4
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC5-005": {
+    "id": "RC5-005",
+    "name": "Critical Damping Parity Bound",
+    "domain": "stability",
+    "canonical_form": "d*(even) = \u03b2  ;  d*(odd) < \u03b2",
+    "description": "Even cycles uniformly require d* = \u03b2 for stability. Odd cycles require strictly less damping. Phase-flip at \u03c9=\u22121 dominates even cycles.",
+    "provenance": {
+      "source": "RC5 Amplification Theorem",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Critical Damping Formula",
+      "reference": "rc5_amplification.py",
+      "verified_tests": 30
+    },
+    "assumptions": [
+      {
+        "name": "uniform_cycle",
+        "description": "Uniform directed cycle of k \u2265 3 nodes"
+      }
+    ],
+    "breaks_when": [],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "d \u2265 \u03b2 (even k) ; d > 0 (odd k)",
+      "op_count": 3,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 2400
+    },
+    "falsification": {
+      "cases_attempted": 213,
+      "cases_passed": 213,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 0,
+      "adversarial_tested": 13,
+      "duration_ms": 6.76
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC6-001": {
+    "id": "RC6-001",
+    "name": "Spectral Substitution g(z)",
+    "domain": "spectral_containment",
+    "canonical_form": "\u03bb(J) = g(spec(C))  where  g(z) = eig(D + z\u00b7A)",
+    "description": "For uniform-edge graphs J = I\u2297D + C\u2297A, the 2n\u00d72n eigenvalue problem reduces to evaluating the 2\u00d72 block D + z\u00b7A at each adjacency eigenvalue z. Exact for circulant graphs. 41,000\u00d7 speedup at n=20.",
+    "provenance": {
+      "source": "RC6 Spectral Topology Bound",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Spectral Substitution Theorem",
+      "reference": "rc6_spectral.py, 40/40 tests",
+      "verified_tests": 40
+    },
+    "assumptions": [
+      {
+        "name": "uniform_edges",
+        "description": "All edges carry the same atom (same coupling parameters)"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "non_uniform_edges",
+        "example": "{'edges': 'heterogeneous atoms'}",
+        "description": "Non-uniform edges break Kronecker structure J = I\u2297D + C\u2297A"
+      }
+    ],
+    "gate": {
+      "tier": "NUMERICAL",
+      "rational_form": "max Re(g(z)) < 0 for all z \u2208 spec(C)",
+      "op_count": "variable",
+      "bit_exact": false,
+      "complexity": "O(N\u00b7k)",
+      "gas_estimate": null
+    },
+    "falsification": null,
+    "confidence": 0.0,
+    "certified": false,
+    "certified_at": null
+  },
+  "RC6-002": {
+    "id": "RC6-002",
+    "name": "Critical Spectral Radius \u03c1*",
+    "domain": "spectral_containment",
+    "canonical_form": "\u03c1(C) < \u03c1*(d, atom) \u27f9 stable",
+    "description": "Inscribed circle of the stability region in the complex plane. If adjacency spectral radius is below \u03c1*, system is stable. \u03c1*/d = 1.25 for the standard atom.",
+    "provenance": {
+      "source": "RC6 Spectral Topology Bound",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Inscribed Radius",
+      "reference": "rc6_spectral.py",
+      "verified_tests": 40
+    },
+    "assumptions": [
+      {
+        "name": "uniform_edges",
+        "description": "Uniform edge atoms required for Kronecker structure"
+      },
+      {
+        "name": "known_spectral_radius",
+        "description": "Adjacency spectral radius must be computable"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "anisotropic_boundary",
+        "example": "{'note': '\u03c1*(\u03b8) varies 16\u00d7 across angles'}",
+        "description": "Inscribed radius is conservative; actual boundary is anisotropic"
+      }
+    ],
+    "gate": {
+      "tier": "POLYNOMIAL",
+      "rational_form": "\u03c1(C) < 1.25\u00b7d",
+      "op_count": 2,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": null
+    },
+    "falsification": {
+      "cases_attempted": 209,
+      "cases_passed": 209,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 0,
+      "adversarial_tested": 9,
+      "duration_ms": 7.45
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC6-003": {
+    "id": "RC6-003",
+    "name": "Closed-Form Adjacency Spectra",
+    "domain": "spectral_containment",
+    "canonical_form": "spec(C_k) = {exp(2\u03c0ij/k) : j=0..k-1}  (directed cycle)",
+    "description": "For standard graph families, adjacency eigenvalues are closed-form: directed cycles \u2192 roots of unity; complete graphs \u2192 {k-1, -1, ..., -1}; directed paths \u2192 all zeros. No numerical eigenvalue computation needed.",
+    "provenance": {
+      "source": "RC6 Spectral Topology Bound + classical graph theory",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Known Spectra",
+      "reference": "rc6_spectral.py",
+      "verified_tests": 40
+    },
+    "assumptions": [
+      {
+        "name": "standard_family",
+        "description": "Graph must be a recognized standard family"
+      }
+    ],
+    "breaks_when": [
+      {
+        "name": "arbitrary_graph",
+        "example": "{'graph_type': 'random_erdos_renyi'}",
+        "description": "Arbitrary graphs require numerical eigenvalue computation"
+      }
+    ],
+    "gate": {
+      "tier": "RATIONAL",
+      "rational_form": "graph_type \u2208 {cycle, path, complete, star}",
+      "op_count": 1,
+      "bit_exact": true,
+      "complexity": "O(1)",
+      "gas_estimate": 1200
+    },
+    "falsification": {
+      "cases_attempted": 212,
+      "cases_passed": 212,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 36,
+      "adversarial_tested": 20,
+      "duration_ms": 6.02
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  },
+  "RC6-004": {
+    "id": "RC6-004",
+    "name": "Damping-Radius Exchange Rate",
+    "domain": "stability",
+    "canonical_form": "\u03c1*/d = const (atom-dependent)",
+    "description": "Critical spectral radius scales linearly with damping. For standard atom: \u03c1*/d = 1.25. If graph has spectral radius 2, need d \u2265 1.6 per node.",
+    "provenance": {
+      "source": "RC6 Spectral Topology Bound",
+      "authors": [
+        "Brad Wallace"
+      ],
+      "year": 2026,
+      "theorem_id": "Exchange Rate",
+      "reference": "rc6_spectral.py",
+      "verified_tests": 40
+    },
+    "assumptions": [
+      {
+        "name": "standard_atom",
+        "description": "Symmetric atom (\u03b2 = \u03ba) with positive coupling"
+      }
+    ],
+    "breaks_when": [],
+    "gate": {
+      "tier": "POLYNOMIAL",
+      "rational_form": "d \u00b7 exchange_rate > \u03c1(C)",
+      "op_count": 2,
+      "bit_exact": true,
+      "complexity": "O(N)",
+      "gas_estimate": null
+    },
+    "falsification": {
+      "cases_attempted": 4,
+      "cases_passed": 4,
+      "cases_failed": 0,
+      "counterexamples_count": 0,
+      "boundary_tested": 0,
+      "adversarial_tested": 4,
+      "duration_ms": 7.43
+    },
+    "confidence": 1.0,
+    "certified": true,
+    "certified_at": "2026-02-23T16:10:11Z"
+  }
+}
